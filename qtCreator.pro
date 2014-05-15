@@ -20,7 +20,12 @@ OTHER_FILES += \
     src/proxyserver/proxyserver.conf.template \
     src/updateserver/Makefile.am \
     src/updateserver/updateserver.conf.template \
-    src/compactsstable/Makefile.am
+    src/compactsstable/Makefile.am \
+    src/compactsstablev2/Makefile.am \
+    src/mms/Makefile.am \
+    src/lsync/lsyncserver.conf.template \
+    src/lsync/Makefile.am \
+    src/sstable/Makefile.am
 
 HEADERS += \
    src/chunkserver/ob_block_cache_loader.h \
@@ -337,7 +342,75 @@ HEADERS += \
     src/compactsstable/ob_block_membuf.h \
     src/compactsstable/ob_compact_obj.h \
     src/compactsstable/ob_compact_row.h \
-    src/compactsstable/ob_compactsstable_mem.h
+    src/compactsstable/ob_compactsstable_mem.h \
+    src/compactsstablev2/ob_compact_sstable_getter.h \
+    src/compactsstablev2/ob_compact_sstable_reader.h \
+    src/compactsstablev2/ob_compact_sstable_scanner.h \
+    src/compactsstablev2/ob_compact_sstable_writer_buffer.h \
+    src/compactsstablev2/ob_compact_sstable_writer.h \
+    src/compactsstablev2/ob_sstable_aio_buffer_mgr.h \
+    src/compactsstablev2/ob_sstable_aio_event_mgr.h \
+    src/compactsstablev2/ob_sstable_block_builder.h \
+    src/compactsstablev2/ob_sstable_block_cache.h \
+    src/compactsstablev2/ob_sstable_block_endkey_builder.h \
+    src/compactsstablev2/ob_sstable_block_getter.h \
+    src/compactsstablev2/ob_sstable_block_index_builder.h \
+    src/compactsstablev2/ob_sstable_block_index_cache.h \
+    src/compactsstablev2/ob_sstable_block_index_mgr.h \
+    src/compactsstablev2/ob_sstable_block_reader.h \
+    src/compactsstablev2/ob_sstable_block_scanner.h \
+    src/compactsstablev2/ob_sstable_block.h \
+    src/compactsstablev2/ob_sstable_buffer.h \
+    src/compactsstablev2/ob_sstable_common_buffer.h \
+    src/compactsstablev2/ob_sstable_compact_row.h \
+    src/compactsstablev2/ob_sstable_disk_path.h \
+    src/compactsstablev2/ob_sstable_row_cache.h \
+    src/compactsstablev2/ob_sstable_scan_column_indexes.h \
+    src/compactsstablev2/ob_sstable_schema_cache.h \
+    src/compactsstablev2/ob_sstable_schema.h \
+    src/compactsstablev2/ob_sstable_store_struct.h \
+    src/compactsstablev2/ob_sstable_table_index_builder.h \
+    src/compactsstablev2/ob_sstable_table_range_builder.h \
+    src/compactsstablev2/ob_sstable_table_schema_builder.h \
+    src/compactsstablev2/ob_sstable_table.h \
+    src/compactsstablev2/ob_sstable.h \
+    src/mms/ob_mms_checklease_task.h \
+    src/mms/ob_mms_heartbeat_task.h \
+    src/mms/ob_monitor.h \
+    src/mms/ob_node.h \
+    src/lsync/ob_lsync_callback.h \
+    src/lsync/ob_lsync_server_main.h \
+    src/lsync/ob_lsync_server_param.h \
+    src/lsync/ob_lsync_server.h \
+    src/lsync/ob_seekable_log_reader.h \
+    src/lsync/ob_seekable_log_reader2.h \
+    src/sstable/ob_aio_buffer_mgr.h \
+    src/sstable/ob_aio_event_mgr.h \
+    src/sstable/ob_block_index_cache.h \
+    src/sstable/ob_blockcache.h \
+    src/sstable/ob_column_group_scanner.h \
+    src/sstable/ob_disk_path.h \
+    src/sstable/ob_scan_column_indexes.h \
+    src/sstable/ob_seq_sstable_scanner.h \
+    src/sstable/ob_sstable_block_builder.h \
+    src/sstable/ob_sstable_block_getter.h \
+    src/sstable/ob_sstable_block_index_buffer.h \
+    src/sstable/ob_sstable_block_index_builder.h \
+    src/sstable/ob_sstable_block_index_v2.h \
+    src/sstable/ob_sstable_block_reader.h \
+    src/sstable/ob_sstable_block_scanner.h \
+    src/sstable/ob_sstable_getter.h \
+    src/sstable/ob_sstable_merger.h \
+    src/sstable/ob_sstable_reader_i.h \
+    src/sstable/ob_sstable_reader.h \
+    src/sstable/ob_sstable_row_cache.h \
+    src/sstable/ob_sstable_row.h \
+    src/sstable/ob_sstable_scan_param.h \
+    src/sstable/ob_sstable_scanner.h \
+    src/sstable/ob_sstable_schema_cache.h \
+    src/sstable/ob_sstable_schema.h \
+    src/sstable/ob_sstable_trailer.h \
+    src/sstable/ob_sstable_writer.h
 
 SOURCES += \
    src/chunkserver/main.cpp \
@@ -635,5 +708,68 @@ SOURCES += \
     src/updateserver/ups_mon.cpp \
     src/compactsstable/ob_block_membuf.cpp \
     src/compactsstable/ob_compact_row.cpp \
-    src/compactsstable/ob_compactsstable_mem.cpp
+    src/compactsstable/ob_compactsstable_mem.cpp \
+    src/compactsstablev2/ob_compact_sstable_getter.cpp \
+    src/compactsstablev2/ob_compact_sstable_reader.cpp \
+    src/compactsstablev2/ob_compact_sstable_scanner.cpp \
+    src/compactsstablev2/ob_compact_sstable_writer_buffer.cpp \
+    src/compactsstablev2/ob_compact_sstable_writer.cpp \
+    src/compactsstablev2/ob_sstable_aio_buffer_mgr.cpp \
+    src/compactsstablev2/ob_sstable_aio_event_mgr.cpp \
+    src/compactsstablev2/ob_sstable_block_builder.cpp \
+    src/compactsstablev2/ob_sstable_block_cache.cpp \
+    src/compactsstablev2/ob_sstable_block_endkey_builder.cpp \
+    src/compactsstablev2/ob_sstable_block_getter.cpp \
+    src/compactsstablev2/ob_sstable_block_index_builder.cpp \
+    src/compactsstablev2/ob_sstable_block_index_cache.cpp \
+    src/compactsstablev2/ob_sstable_block_index_mgr.cpp \
+    src/compactsstablev2/ob_sstable_block_reader.cpp \
+    src/compactsstablev2/ob_sstable_block_scanner.cpp \
+    src/compactsstablev2/ob_sstable_block.cpp \
+    src/compactsstablev2/ob_sstable_buffer.cpp \
+    src/compactsstablev2/ob_sstable_compact_row.cpp \
+    src/compactsstablev2/ob_sstable_row_cache.cpp \
+    src/compactsstablev2/ob_sstable_scan_column_indexes.cpp \
+    src/compactsstablev2/ob_sstable_schema_cache.cpp \
+    src/compactsstablev2/ob_sstable_schema.cpp \
+    src/compactsstablev2/ob_sstable_table_index_builder.cpp \
+    src/compactsstablev2/ob_sstable_table_range_builder.cpp \
+    src/compactsstablev2/ob_sstable_table_schema_builder.cpp \
+    src/compactsstablev2/ob_sstable_table.cpp \
+    src/compactsstablev2/ob_sstable.cpp \
+    src/mms/ob_mms_checklease_task.cpp \
+    src/mms/ob_mms_heartbeat_task.cpp \
+    src/mms/ob_monitor.cpp \
+    src/mms/ob_node.cpp \
+    src/lsync/main.cpp \
+    src/lsync/ob_lsync_callback.cpp \
+    src/lsync/ob_lsync_server_main.cpp \
+    src/lsync/ob_lsync_server_param.cpp \
+    src/lsync/ob_lsync_server.cpp \
+    src/lsync/ob_seekable_log_reader.cpp \
+    src/lsync/ob_seekable_log_reader2.cpp \
+    src/sstable/ob_aio_buffer_mgr.cpp \
+    src/sstable/ob_aio_event_mgr.cpp \
+    src/sstable/ob_block_index_cache.cpp \
+    src/sstable/ob_blockcache.cpp \
+    src/sstable/ob_column_group_scanner.cpp \
+    src/sstable/ob_seq_sstable_scanner.cpp \
+    src/sstable/ob_sstable_block_builder.cpp \
+    src/sstable/ob_sstable_block_getter.cpp \
+    src/sstable/ob_sstable_block_index_buffer.cpp \
+    src/sstable/ob_sstable_block_index_builder.cpp \
+    src/sstable/ob_sstable_block_index_v2.cpp \
+    src/sstable/ob_sstable_block_reader.cpp \
+    src/sstable/ob_sstable_block_scanner.cpp \
+    src/sstable/ob_sstable_getter.cpp \
+    src/sstable/ob_sstable_merger.cpp \
+    src/sstable/ob_sstable_reader.cpp \
+    src/sstable/ob_sstable_row_cache.cpp \
+    src/sstable/ob_sstable_row.cpp \
+    src/sstable/ob_sstable_scan_param.cpp \
+    src/sstable/ob_sstable_scanner.cpp \
+    src/sstable/ob_sstable_schema_cache.cpp \
+    src/sstable/ob_sstable_schema.cpp \
+    src/sstable/ob_sstable_trailer.cpp \
+    src/sstable/ob_sstable_writer.cpp
 
